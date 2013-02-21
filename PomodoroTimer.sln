@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PomodoroTimer", "PomodoroTimer\PomodoroTimer.csproj", "{088A73CC-43CE-4BF2-9089-AA48B79C95FB}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Pomodoro Timer Setup", "SetupPomodoro\SetupPomodoro.vdproj", "{6B454115-16CB-4B4C-88C7-6E9FE7A4B6C3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{088A73CC-43CE-4BF2-9089-AA48B79C95FB}.Debug|x86.ActiveCfg = Debug|x86
+		{088A73CC-43CE-4BF2-9089-AA48B79C95FB}.Debug|x86.Build.0 = Debug|x86
+		{088A73CC-43CE-4BF2-9089-AA48B79C95FB}.Release|x86.ActiveCfg = Release|x86
+		{088A73CC-43CE-4BF2-9089-AA48B79C95FB}.Release|x86.Build.0 = Release|x86
+		{6B454115-16CB-4B4C-88C7-6E9FE7A4B6C3}.Debug|x86.ActiveCfg = Debug
+		{6B454115-16CB-4B4C-88C7-6E9FE7A4B6C3}.Debug|x86.Build.0 = Debug
+		{6B454115-16CB-4B4C-88C7-6E9FE7A4B6C3}.Release|x86.ActiveCfg = Release
+		{6B454115-16CB-4B4C-88C7-6E9FE7A4B6C3}.Release|x86.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
