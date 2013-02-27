@@ -14,33 +14,33 @@ namespace PomodoroTimer
 
     public partial class Form1 : Form
     {
-        private Timer timer;
-        private TimerState timerState;
-        private const int timerPeriod = 1000;
-        private SettingsForm settingsForm = new SettingsForm();
+        private readonly Timer _timer;
+        private readonly TimerState _timerState;
+        private const int TimerPeriod = 1000;
+        private readonly SettingsForm _settingsForm = new SettingsForm();
         //private TimerButtons timerButton;
 
-        private int remindSeconds = 0;
+        private int _remindSeconds = 0;
 
 
         public Form1()
         {
-            timerState = new TimerState();
+            _timerState = new TimerState();
 
-            timer = new Timer();
+            _timer = new Timer();
             
-            timer.Tick += new EventHandler(TimerEventProcessor);
-            timer.Interval = timerPeriod;
-            this.timer.Start();
+            _timer.Tick += new EventHandler(TimerEventProcessor);
+            _timer.Interval = TimerPeriod;
+            this._timer.Start();
 
 
-            timerState.TimerDoneEvent += this.timerState_TimerDone;
+            _timerState.TimerDoneEvent += this.timerState_TimerDone;
 
             InitializeComponent();
             this.SetTimerButton(TimerButtons.Work);
 
-            this.timerLabel.Text = this.GetFormattedTime(timerState);
-            this.stateLabel.Text = this.GetStatusString(timerState);
+            this.timerLabel.Text = this.GetFormattedTime(_timerState);
+            this.stateLabel.Text = this.GetStatusString(_timerState);
 
             if (Properties.Settings.Default.ShowTimeCorrection)
             {
@@ -67,15 +67,12 @@ namespace PomodoroTimer
         }
         private void Pause()
         {
-            this.timer.Stop();
-            this.timerState.Pause();
+            this._timerState.Pause();
         }
 
         private void Resume()
         {
-            this.timer.Start();
-            this.timerState.Start();
-
+            this._timerState.Start();
         }
         private void SetTimerButton(TimerButtons timerButton)
         {
@@ -110,28 +107,34 @@ namespace PomodoroTimer
         private void TimerEventProcessor(Object myObject,
                                             EventArgs myEventArgs) 
         {
-            if (timerState.Paused)
+            //Console.WriteLine(_timerState.Paused);
+            if (_timerState.Paused)
             {
-                if (Properties.Settings.Default.RemindWhenPaused)
+
+                if (Properties.Settings.Default.RemindWhenPaused && Properties.Settings.Default.RemindPeriod != 0)
                 {
-                    this.remindSeconds++;
+                    this._remindSeconds++;
                     int p = Properties.Settings.Default.RemindPeriod;
-                    if (this.remindSeconds % (p) == 0)
+                    if (this._remindSeconds % (p) == 0)
                     {
                         this.Show();
                         this.Activate();
                         this.WindowState = FormWindowState.Normal;
+                        //this.ShowNotification(this.GetStatusString(timerState));
+                        //this.PlaySoundDone();
                         
                     }
                 }
+                
             } 
             else
             {
-                timerState.Tick();
-                this.timerLabel.Text = this.GetFormattedTime(timerState);
+                this._remindSeconds = 0;
+                _timerState.Tick();
+                this.timerLabel.Text = this.GetFormattedTime(_timerState);
             }
 
-            this.notifyIcon1.Text = this.GetStatusString(timerState) + ": " + this.GetFormattedTime(timerState);
+            this.notifyIcon1.Text = this.GetStatusString(_timerState) + ": " + this.GetFormattedTime(_timerState);
                 ;
         }
 
@@ -171,9 +174,9 @@ namespace PomodoroTimer
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            this.timerState.stateWork();
+            this._timerState.stateWork();
             
-            this.stateLabel.Text = this.GetStatusString(timerState);
+            this.stateLabel.Text = this.GetStatusString(_timerState);
             this.SetTimerButton(TimerButtons.Pause);
             this.Resume();
             if(Properties.Settings.Default.MinimizeAtStart)
@@ -193,16 +196,16 @@ namespace PomodoroTimer
         {
             this.PlaySoundDone();
             this.Pause();
-            if (this.timerState.State == TimerStateEnum.WaitWork)
+            if (this._timerState.State == TimerStateEnum.WaitWork)
             {
                 this.SetTimerButton(TimerButtons.Work);
 
             }
-            else if (this.timerState.State == TimerStateEnum.WaitBreak )
+            else if (this._timerState.State == TimerStateEnum.WaitBreak )
             {
                 this.SetTimerButton(TimerButtons.Break);
             }
-            else if (this.timerState.State == TimerStateEnum.WaitLongBreak)
+            else if (this._timerState.State == TimerStateEnum.WaitLongBreak)
             {
                 this.SetTimerButton(TimerButtons.LongBreak);
             }
@@ -222,7 +225,7 @@ namespace PomodoroTimer
 
         private void breakButton_Click(object sender, EventArgs e)
         {
-            this.timerState.stateBreak();
+            this._timerState.stateBreak();
             this.SetTimerButton(TimerButtons.Pause);
             this.Resume();
             if(Properties.Settings.Default.MinimizeAtStart)
@@ -231,9 +234,9 @@ namespace PomodoroTimer
 
         private void resetButton_Click(object sender, EventArgs e)
         {
-            this.timerState.Reset();
-            this.timerLabel.Text = this.GetFormattedTime(timerState);
-            this.stateLabel.Text = this.GetStatusString(timerState);
+            this._timerState.Reset();
+            this.timerLabel.Text = this.GetFormattedTime(_timerState);
+            this.stateLabel.Text = this.GetStatusString(_timerState);
             this.Pause();
         }
 
@@ -244,7 +247,7 @@ namespace PomodoroTimer
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.settingsForm.ShowDialog();
+            this._settingsForm.ShowDialog();
             if (Properties.Settings.Default.ShowTimeCorrection)
             {
                 this.timeCorrectionPanel.Visible = true;
@@ -260,12 +263,12 @@ namespace PomodoroTimer
         {
             this.Resume();
             this.SetTimerButton(TimerButtons.Pause);
-            this.stateLabel.Text = this.GetStatusString(timerState);
+            this.stateLabel.Text = this.GetStatusString(_timerState);
         }
 
         private void longBreakButton_Click(object sender, EventArgs e)
         {
-            this.timerState.stateLongBreak();
+            this._timerState.stateLongBreak();
             this.SetTimerButton(TimerButtons.Pause);
             this.Resume();
             if(Properties.Settings.Default.MinimizeAtStart)
@@ -312,16 +315,16 @@ namespace PomodoroTimer
 
         private void button2_Click(object sender, EventArgs e)
         {
-            this.timerState.Seconds -= 60;
-            if (this.timerState.Seconds < 0)
-                this.timerState.Seconds = 0;
-            this.timerLabel.Text = this.GetFormattedTime(timerState);
+            this._timerState.Seconds -= 60;
+            if (this._timerState.Seconds < 0)
+                this._timerState.Seconds = 0;
+            this.timerLabel.Text = this.GetFormattedTime(_timerState);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.timerState.Seconds += 60;
-            this.timerLabel.Text = this.GetFormattedTime(timerState);
+            this._timerState.Seconds += 60;
+            this.timerLabel.Text = this.GetFormattedTime(_timerState);
         }
     }
 }

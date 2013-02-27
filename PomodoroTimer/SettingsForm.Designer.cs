@@ -188,9 +188,9 @@
             this.label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label4.Location = new System.Drawing.Point(6, 52);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(103, 13);
+            this.label4.Size = new System.Drawing.Size(104, 13);
             this.label4.TabIndex = 0;
-            this.label4.Text = "Remind period (min.)";
+            this.label4.Text = "Remind period (sec.)";
             // 
             // groupBox1
             // 

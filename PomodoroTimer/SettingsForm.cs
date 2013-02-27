@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -26,7 +27,7 @@ namespace PomodoroTimer
             this.windowNotifCheckBox.Checked = Properties.Settings.Default.ShowWindowNotif;
             this.minimizeWhenStartCheckBox.Checked = Properties.Settings.Default.MinimizeAtStart;
             this.cb_remind.Checked = Properties.Settings.Default.RemindWhenPaused;
-            this.tb_remindPeriod.Text = ((int)(Properties.Settings.Default.RemindPeriod) / 60).ToString();
+            this.tb_remindPeriod.Text = ((int)(Properties.Settings.Default.RemindPeriod)).ToString();
             //this.baloonSecondsTextBox.Text = Properties.Settings.Default.BaloonSeconds.ToString();
         }
 
@@ -42,7 +43,7 @@ namespace PomodoroTimer
             Properties.Settings.Default.ShowWindowNotif = this.windowNotifCheckBox.Checked;
             Properties.Settings.Default.MinimizeAtStart = this.minimizeWhenStartCheckBox.Checked;
             Properties.Settings.Default.RemindWhenPaused = this.cb_remind.Checked;
-            Properties.Settings.Default.RemindPeriod = int.Parse(this.tb_remindPeriod.Text) * 60;
+            Properties.Settings.Default.RemindPeriod = int.Parse(this.tb_remindPeriod.Text);
             //Properties.Settings.Default.BaloonSeconds = int.Parse(this.baloonSecondsTextBox.Text);
             Properties.Settings.Default.Save();
         }
