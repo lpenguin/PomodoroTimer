@@ -49,6 +49,7 @@ x64/
 build/
 [Bb]in/
 [Oo]bj/
+SetupPomodoro/binaries
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
